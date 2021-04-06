@@ -19,6 +19,17 @@ module.exports = {
     },
     module: {
         rules: [
+            // 配置babel loader
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    query: {
+                        presets: ['env', 'stage-0'] // env 转换es6 stage-0转es7
+                    }
+                }
+            },
             // 加载 vue 文件
             {
                 test: /.vue$/,
@@ -37,7 +48,7 @@ module.exports = {
                     loader: "url-loader",
                     options: {
                         name: "[name]_[hash:8].[ext]", //[hash]解决缓存，[ext]保留旧文件的文件后缀
-                        limit: 500,  //是把小于500B的文件打成Base64的格式，写入JS
+                        limit: 1000,  //是把小于500B的文件打成Base64的格式，写入JS
                         outputPath: "image/", //图片放到image/目录下
                         esModule: false,
                     }
@@ -111,12 +122,13 @@ module.exports = {
             chunkFilename: devMode ? 'css/[id].css' : 'css/[id].[hash].css',
         })
     ],
-    mode: 'development',
+    // 解析模块的可选项
     resolve: {
         // 配置别名
+        // modules: [ ]//模块的查找目录 配置其他的css等文件
+        extensions: [".js", ".json", ".jsx", ".scss", ".sass", ".css"],  //用到文件的扩展名
         alias: {
-            'Img':
-                path.resolve(__dirname, '../src/assets/image')
+            '@': path.resolve(__dirname, './src')
         }
     }
 }

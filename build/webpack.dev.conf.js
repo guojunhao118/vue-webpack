@@ -1,6 +1,8 @@
 const webpack = require('webpack')
+// 合并配置
 const merge = require('webpack-merge')
-const baseWebpackConfig = require('./webpack.config.base')
+const baseWebpackConfig = require('./webpack.base.conf')
+const { deviceIp }  = require('./utils')
 
 module.exports = merge(baseWebpackConfig, {
     mode: 'development',
@@ -10,7 +12,14 @@ module.exports = merge(baseWebpackConfig, {
         hot: true,
         open: true,
         port: process.env.PORT || 9090,
-        host: '0.0.0.0',
+        host: deviceIp,
         inline: true, // 实时刷新
     },
+    plugins: [
+        // 处理环境问题
+        new webpack.DefinePlugin({
+            'process.env': require('../config/dev.env')
+        })
+    ]
+
 })

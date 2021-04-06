@@ -10,7 +10,7 @@ export default {
     data() {
         return {
             text: 'vue start',
-            avatorImg: require('./assets/image/avator.jpeg')
+            avatorImg: require('@/assets/image/avator.jpeg')
         }
     }
 }
